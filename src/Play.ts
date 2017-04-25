@@ -1,5 +1,6 @@
 import Card from './Card';
 import Player from './Player';
+import groupsOfSize from './utils/groupsOfSize';
 
 type PlayType = (
     'INVALID'
@@ -17,19 +18,14 @@ type PlayType = (
 const lastCardRank = (cards: Card[]):number =>
   cards[cards.length - 1].rank;
 
-export const sortByRank = (a:Card, b:Card):number =>
+export const compareRank = (a:Card, b:Card):number =>
   a.rank - b.rank;
 
 export const same = (attr:keyof Card, cards:Card[]):boolean =>
-  cards.length === 0 || cards[0][attr] === cards[cards.length - 1][attr];
+  cards[0][attr] === cards[cards.length - 1][attr];
 
-export const sameRank = (cards:Card[]):boolean => same('rank', cards);
-export const sameSuit = (cards:Card[]):boolean => same('suit', cards);
-
-export const groupBySize = <T>([...cards]:T[], size:number):T[][] =>
-  [...Array(cards.length / size)].map((_, i) =>
-    cards.slice(size * i, size * ++i)
-  );
+const sameRank = (cards:Card[]):boolean => same('rank', cards);
+const sameSuit = (cards:Card[]):boolean => same('suit', cards);
 
 // TODO: Test that a straight cannot have 2 high, small joker or big joker...
 export const isStraight = (cards:Card[]):boolean =>
@@ -40,7 +36,7 @@ export const isStraight = (cards:Card[]):boolean =>
 export const isSisters = (sortedCards:Card[], size:number):boolean => {
   if(sortedCards.length % size !== 0) return false;
 
-  const groups = groupBySize(sortedCards, size);
+  const groups = groupsOfSize(sortedCards, size);
   return (
     groups.every(sameRank) &&          // Cards of each group have the same rank
     isStraight(groups.map(([c]) => c)) // Each group's rank make a straight
@@ -56,7 +52,7 @@ export const isFullHouse = ([a, b, c, d, e]:Card[]):boolean =>
 export const fullHouseRank = ([, {rank: a}, {rank: b},,]:Card[]):number =>
   a === b ? a : b;
 
-export const typeForCards = (cards:Card[]):{ type:PlayType, multiple?:number } => {
+const typeForCards = (cards:Card[]):{ type:PlayType, multiple?:number } => {
   const numCards:number = cards.length;
   switch(numCards){
     case 0: return { type: 'INVALID' };
@@ -99,7 +95,7 @@ export default class Play {
 
   constructor(player:Player, cards:Card[]) {
     this.player = player;
-    this.cards = cards.sort(sortByRank);
+    this.cards = cards.sort(compareRank);
 
     const { type, multiple = 1 } = typeForCards(this.cards);
     this.type = type;

@@ -1,11 +1,10 @@
 import Play, {
   fullHouseRank,
-  groupBySize,
   isFullHouse,
   isStraight,
   isSisters,
   same,
-  sortByRank
+  compareRank
 } from './Play';
 import Player from './Player';
 import Card, { DECK, getCards } from './Card';
@@ -46,9 +45,9 @@ expect.extend({
 });
 
 describe('Play', () => {
-  describe('sortByRank(a, b)', () => {
+  describe('compareRank(a, b)', () => {
     it('sorts by rank', () => {
-      const sortedRanks = [...DECK].sort(sortByRank).map(c => c.rank);
+      const sortedRanks = [...DECK].sort(compareRank).map(c => c.rank);
       // Each card is is higher or equal rank to the card before
       expect(
         sortedRanks.every((r, i) => i === 0 || sortedRanks[i - 1] <= r)
@@ -58,10 +57,6 @@ describe('Play', () => {
 
   describe('same(attr, cards)', () => {
     it('returns true if all cards have the same rank', () => {
-      expect(
-        same('rank', [])
-      ).toBe(true);
-
       expect(
         same('rank', getCards('3 of Hearts'))
       ).toBe(true);
@@ -104,28 +99,6 @@ describe('Play', () => {
       ).toBe(false);
     });
   });
-
-  describe('groupBySize(cards, groupSize)', () => {
-    it('returns arrays of arrays of size `groupSize`', () => {
-      const input = [1, 2, 3, 4, 5, 6];
-
-      expect(
-        groupBySize(input, 2)
-      ).toEqual([
-        [1, 2],
-        [3, 4],
-        [5, 6]
-      ]);
-
-      expect(
-        groupBySize(input, 3)
-      ).toEqual([
-        [1, 2, 3],
-        [4, 5, 6]
-      ]);
-    });
-  });
-
 
   describe('isStraight(cards)', () => {
     it('returns true if cards have consecutive rank', () => {
