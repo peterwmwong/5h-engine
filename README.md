@@ -4,8 +4,8 @@ Simple Five of Hearts game engine.
 
 ### Getting Started
 
-> npm install
-> npm test
+    > npm install
+    > npm test
 
 ### Example
 
