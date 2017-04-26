@@ -112,6 +112,28 @@ describe('Play', () => {
         )
       ).toBe(true);
     });
+    it('returns false if otherwise', () => {
+      expect(
+        isStraight(
+          getCards(
+            '3 of Hearts',
+            '6 of Clubs',
+            '5 of Clubs'
+          )
+        )
+      ).toBe(false);
+
+      expect(
+        isStraight(
+          getCards(
+            'Queen of Hearts',
+            'King of Hearts',
+            'Ace of Hearts',
+            '2 of Hearts'
+          )
+        )
+      ).toBe(false);
+    });
   });
 
   describe('isSisters(cards, groupSize)', () => {
@@ -159,6 +181,19 @@ describe('Play', () => {
           3
         )
       ).toBe(true);
+
+      expect(
+        isSisters(
+          getCards(
+            '2 of Hearts',
+            '2 of Diamonds',
+
+            '3 of Hearts',
+            '3 of Diamonds'
+          ),
+          2
+        )
+      ).toBe(true);
     });
 
     describe('returns false', () => {
@@ -200,19 +235,6 @@ describe('Play', () => {
 
               '5 of Hearts',
               '5 of Diamonds'
-            ),
-            2
-          )
-        ).toBe(false);
-
-        expect(
-          isSisters(
-            getCards(
-              '2 of Hearts',
-              '2 of Diamonds',
-
-              '3 of Hearts',
-              '3 of Diamonds'
             ),
             2
           )
@@ -651,40 +673,39 @@ describe('Play', () => {
 
     it('sisters', () => {
       expect([
-        '2 of Clubs', '2 of Hearts',
-        'Ace of Hearts', 'Ace of Diamonds'
-      ]).toTrump([
         'Ace of Clubs', 'Ace of Hearts',
+        'King of Hearts', 'King of Diamonds'
+      ]).toTrump([
+        'Queen of Hearts', 'Queen of Diamonds',
         'King of Hearts', 'King of Diamonds'
       ]);
 
       expect([
-        '2 of Clubs', '2 of Hearts',
-        'Ace of Hearts', 'Ace of Diamonds',
-        'King of Hearts', 'King of Diamonds'
-      ]).toTrump([
         'Ace of Clubs', 'Ace of Hearts',
         'King of Hearts', 'King of Diamonds',
         'Queen of Hearts', 'Queen of Diamonds'
+      ]).toTrump([
+        'Jack of Hearts', 'Jack of Diamonds',
+        'Queen of Hearts', 'Queen of Diamonds',
+        'King of Hearts', 'King of Diamonds'
       ]);
 
       expect([
-        '2 of Clubs', '2 of Hearts',
-        'Ace of Hearts', 'Ace of Diamonds'
+        'Ace of Clubs', 'Ace of Hearts',
+        'King of Hearts', 'King of Diamonds'
       ]).not.toTrump(BOMB_4_OF_A_KIND);
 
       expect([
-        '2 of Clubs', '2 of Hearts',
-        'Ace of Hearts', 'Ace of Diamonds'
+        'Ace of Clubs', 'Ace of Hearts',
+        'King of Hearts', 'King of Diamonds'
       ]).not.toTrump(BOMB_STRAIGHT_FLUSH);
 
-
       expect([
-        '2 of Clubs', '2 of Hearts',
-        'Ace of Hearts', 'Ace of Diamonds'
+        'Ace of Clubs', 'Ace of Hearts',
+        'King of Hearts', 'King of Diamonds'
       ]).not.toTrump([
-        '2 of Diamonds', '2 of Spades',
-        'Ace of Clubs', 'Ace of Spades'
+        'Ace of Diamonds', 'Ace of Spades',
+        'King of Diamonds', 'King of Clubs'
       ]);
     });
 

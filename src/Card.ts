@@ -5,12 +5,14 @@ const ID_TO_CARD:Map<string, Card> = new Map();
 export default class Card {
   readonly rank:number;
   readonly singleRank:number;
+  readonly straightRank:number;
   readonly suit:string;
   readonly id:string;
 
-  constructor(rank:number, value:string, suit = '', singleRank = rank) {
+  constructor(rank:number, value:string, suit = '', singleRank = rank, straightRank = rank) {
     this.rank = rank;
     this.singleRank = singleRank;
+    this.straightRank = straightRank;
     this.suit = suit;
     this.id = suit ? `${value} of ${suit}` : value;
 
@@ -35,7 +37,7 @@ export const DECK:Card[] = [
       new Card(10, 'Queen', suit),
       new Card(11, 'King', suit),
       new Card(12, 'Ace', suit),
-      new Card(13, '2', suit)
+      new Card(13, '2', suit, 13, 0)
     ])
   ),
   new Card(14, 'Small Joker'),

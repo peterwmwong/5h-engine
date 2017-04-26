@@ -21,16 +21,20 @@ const lastCardRank = (cards: Card[]):number =>
 export const compareRank = (a:Card, b:Card):number =>
   a.rank - b.rank;
 
+export const compareStraightRank = (a:Card, b:Card):number =>
+  a.straightRank - b.straightRank;
+
 export const same = (attr:keyof Card, cards:Card[]):boolean =>
   cards[0][attr] === cards[cards.length - 1][attr];
 
+const sameStraightRank = (cards:Card[]):boolean => same('straightRank', cards);
 const sameRank = (cards:Card[]):boolean => same('rank', cards);
 const sameSuit = (cards:Card[]):boolean => same('suit', cards);
 
 // TODO: Test that a straight cannot have 2 high, small joker or big joker...
 export const isStraight = (cards:Card[]):boolean =>
-  cards.every((c, i) =>
-    i === 0 || c.rank - cards[i - 1].rank === 1 // Every card is one more than the previous
+  [...cards].sort(compareStraightRank).every((c, i) =>
+    i === 0 || c.straightRank - cards[i - 1].straightRank === 1 // Every card is one more than the previous
   );
 
 export const isSisters = (sortedCards:Card[], size:number):boolean => {
@@ -38,7 +42,7 @@ export const isSisters = (sortedCards:Card[], size:number):boolean => {
 
   const groups = groupsOfSize(sortedCards, size);
   return (
-    groups.every(sameRank) &&          // Cards of each group have the same rank
+    groups.every(sameStraightRank) &&  // Cards of each group have the same rank
     isStraight(groups.map(([c]) => c)) // Each group's rank make a straight
   );
 }
