@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "outDir": "./built",
+    "outDir": "built",
     "strict": true,
-    "target": "es6"
+    "target": "es6",
+    "inlineSourceMap": true
   },
   "include": [
-    "./src/**/*"
+    "src/**/*.ts"
   ]
 }
