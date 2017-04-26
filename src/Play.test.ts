@@ -133,6 +133,17 @@ describe('Play', () => {
           )
         )
       ).toBe(false);
+
+      expect(
+        isStraight(
+          getCards(
+            'Queen of Hearts',
+            'King of Hearts',
+            'Ace of Hearts',
+            'Small Joker'
+          )
+        )
+      ).toBe(false);
     });
   });
 
