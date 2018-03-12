@@ -1,7 +1,7 @@
 import Card, { DECK } from './Card';
 import { ALL_CARD_NAMES } from './CardTestConstants'
 
-describe('createDeck', () => {
+describe('Card', () => {
   let cards: Card[];
   beforeEach(() => {
     cards = [...DECK];
