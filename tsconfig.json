@@ -3,9 +3,8 @@
     "outDir": "built",
     "strict": true,
     "target": "es6",
-    "inlineSourceMap": true
-  },
-  "include": [
-    "src/**/*.ts"
-  ]
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": false
+  }
 }
