@@ -1,3 +1,5 @@
+import './test-utils/toTrump';
+
 import Play, {
   fullHouseRank,
   isFullHouse,
@@ -26,23 +28,6 @@ const BOMB_STRAIGHT_FLUSH = [
   '6 of Hearts',
   '7 of Hearts'
 ];
-
-//
-// Custom `toTrump` matcher to verify one set of cards trumps another.
-//
-// Example:
-//
-//    expect([/* card ids */]).toTrump([/* card ids*/]);
-//
-expect.extend({
-  toTrump(received, argument) {
-    const play1 = new Play(PLAYER, getCards(...argument));
-    const play2 = new Play(PLAYER, getCards(...received));
-    const pass = play1.isTrumpedBy(play2);
-    let message = () => `expected [${received.join(', ')}] ${pass ? 'NOT ' : ''}to trump [${argument.join(', ')}]`;
-    return { pass, message };
-  }
-});
 
 describe('Play', () => {
   describe('compareRank(a, b)', () => {
